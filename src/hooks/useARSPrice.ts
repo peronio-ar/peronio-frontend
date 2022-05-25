@@ -7,9 +7,13 @@ const useARSPrice = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(URL)
-      const data = await response.json()
-      setPrice(data.blue?.value_avg)
+      try {
+        const response = await fetch(URL)
+        const data = await response.json()
+        setPrice(data.blue?.value_avg)
+      } catch (error) {
+        setPrice(0)
+      }
     }
     fetchData()
   }, [])

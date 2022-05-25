@@ -1,8 +1,8 @@
-import { ChainId, Currency, currencyEquals, JSBI, Price } from 'peronio-sdk'
+import { ChainId, Currency, CurrencyAmount, currencyEquals, JSBI, Price } from 'peronio-sdk'
 import tokens, { mainnetTokens } from 'config/constants/tokens'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useMemo } from 'react'
-import { multiplyPriceByAmount } from 'utils/prices'
+import { dividePriceByAmount, multiplyPriceByAmount } from 'utils/prices'
 import { wrappedCurrency } from '../utils/wrappedCurrency'
 import { PairState, usePairs } from './usePairs'
 import useARSPrice from './useARSPrice'
@@ -110,7 +110,7 @@ export const useBUSDPeAmount = (amount: number): number | undefined => {
 export const usePePriceArs = () => {
   const peBusdPrice = usePePriceUsd() /* PE/USDC Price -> PRICE */
   const ARSPrice = useARSPrice() /* ARS Price -> INT */
-  return peBusdPrice && ARSPrice ? peBusdPrice : undefined
+  return peBusdPrice && ARSPrice ? dividePriceByAmount(peBusdPrice, 1/ARSPrice) : undefined
 }
 
 export const useBNBBusdPrice = (): Price | undefined => {
