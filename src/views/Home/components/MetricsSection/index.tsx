@@ -1,5 +1,5 @@
 import React from 'react'
-import { Heading, Flex, Text, SwapIcon, useMatchBreakpoints, EarnIcon, CurrencyIcon } from 'peronio-uikit'
+import { Heading, Flex, Text, SwapIcon, useMatchBreakpoints, IcoIcon, InterestIcon } from 'peronio-uikit'
 import { useTranslation } from 'contexts/Localization'
 // import { useGetStats } from 'hooks/api'
 import useTheme from 'hooks/useTheme'
@@ -33,7 +33,7 @@ const Stats = () => {
   // const users = formatLocalisedCompactNumber(addressCount)
 
   const UsersCardData: IconCardData = {
-    icon: <CurrencyIcon color="secondary" width="36px" />,
+    icon: <IcoIcon color="secondary" width="36px" />,
   }
 
   const TradesCardData: IconCardData = {
@@ -41,7 +41,7 @@ const Stats = () => {
   }
 
   const InterestCardData: IconCardData = {
-    icon: <EarnIcon color="primary" width="36px" />,
+    icon: <InterestIcon color="primary" width="36px" />,
   }
 
   return (
