@@ -118,15 +118,6 @@ const SettingsModal: React.FC<InjectedModalProps> = ({ onDismiss }) => {
               ml="4px"
             />
           </Flex>
-          <Toggle
-            disabled
-            id="toggle-subgraph-health-button"
-            checked={subgraphHealth}
-            scale="md"
-            onChange={() => {
-              setSubgraphHealh(!subgraphHealth)
-            }}
-          />
         </Flex>
         {/* <Flex justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
