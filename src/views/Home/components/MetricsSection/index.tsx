@@ -1,11 +1,12 @@
 import React from 'react'
-import { Heading, Flex, Text, SwapIcon, useMatchBreakpoints, IcoIcon, InterestIcon } from 'peronio-uikit'
+import { Heading, Flex, Text, SwapIcon, useMatchBreakpoints, IcoIcon, InterestIcon, Button } from 'peronio-uikit'
 import { useTranslation } from 'contexts/Localization'
 // import { useGetStats } from 'hooks/api'
 import useTheme from 'hooks/useTheme'
 // import { formatLocalisedCompactNumber } from 'utils/formatBalance'
 import { useCurrency } from 'hooks/Tokens'
 import { useSingleTokenSwapInfo } from 'state/swap/hooks'
+import QuickModal from 'components/Quick/Modal'
 import IconCard, { IconCardData } from '../IconCard'
 import StatCardContent from './StatCardContent'
 import GradientLogo from '../GradientLogoSvg'
@@ -50,6 +51,7 @@ const Stats = () => {
       <Heading textAlign="center" scale="xl">
         {t('The currency of the people.')}
       </Heading>
+      <QuickModal title="Quick Peronio">Hola</QuickModal>
       <Heading textAlign="center" scale="xl" mb="32px">
         {t('Managed by the people.')}
       </Heading>
