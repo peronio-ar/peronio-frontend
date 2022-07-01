@@ -1,4 +1,6 @@
 import React from 'react'
+import { Text } from 'peronio-uikit'
+import { useTheme } from 'styled-components'
 import { Button } from './Button'
 import { FaucetBlock } from './FaucetBlock'
 
@@ -7,14 +9,14 @@ const requiredNetwork = 137
 export const OnBoarding = ({ addr, chainId }) => {
   return (
     <div>
-      <p>Tu direccion: {addr}</p>
+      <Text>Tu direccion: {addr}</Text>
       <div>
         {chainId === requiredNetwork ? (
           <FaucetBlock />
         ) : (
           <>
             <NotPolygon />
-            <p>Red actual: {chainId} </p>
+            <Text>Red actual: {chainId} </Text>
           </>
         )}
       </div>
@@ -23,10 +25,16 @@ export const OnBoarding = ({ addr, chainId }) => {
 }
 
 const NotPolygon = () => {
+  const { isDark } = useTheme()
   return (
     <div>
-      <p>Necesitas utilizar la red de Polygon</p>
-      <Button buttonStyle="btn--primary--outline" buttonSize="btn--large" onClick={changeNetwork} type={undefined}>
+      <Text>Necesitas utilizar la red de Polygon</Text>
+      <Button
+        buttonStyle={isDark ? 'btn--primary--outline' : 'btn--success--outline'}
+        buttonSize="btn--large"
+        onClick={changeNetwork}
+        type={undefined}
+      >
         Cambiar a Red Polygon
       </Button>
     </div>

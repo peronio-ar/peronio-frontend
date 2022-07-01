@@ -1,8 +1,8 @@
 import { Button, useModal } from 'peronio-uikit'
 import React from 'react'
 import { ReactElement } from 'react-markdown'
-import Content from './ModalContent'
 import '../styles.css'
+import Content from './ModalContent'
 
 interface QuickPeronio {
   title: string
@@ -10,12 +10,8 @@ interface QuickPeronio {
 }
 
 const QuickModal: React.FC<QuickPeronio> = (): ReactElement => {
-  const [openModal] = useModal(<Content Title="Quick Peronio" />)
-  return (
-    <div>
-      <Button onClick={openModal}>Quick</Button>
-    </div>
-  )
+  const [openModal] = useModal(<Content Title="Guia Rapida Peronio" />)
+  return <Button onClick={openModal}>Quick</Button>
 }
 
 export default QuickModal

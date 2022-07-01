@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { useTheme } from 'styled-components'
 import { Button } from './Button'
 
 export const AddToken = ({ address, symbol, decimals, image }) => {
+  const { isDark } = useTheme()
   const [addedToken, setAddedToken] = useState(false)
   const handleAddToken = async () => {
     try {
@@ -32,7 +34,12 @@ export const AddToken = ({ address, symbol, decimals, image }) => {
   return (
     <>
       {!addedToken ? (
-        <Button type="button" buttonStyle="btn--primary--outline" buttonSize="btn--large" onClick={handleAddToken}>
+        <Button
+          type="button"
+          buttonStyle={isDark ? 'btn--primary--outline' : 'btn--success--outline'}
+          buttonSize="btn--large"
+          onClick={handleAddToken}
+        >
           Agregar {symbol} a Metamask
         </Button>
       ) : (
