@@ -44,7 +44,7 @@ const Menu = (props) => {
       activeSubItem={activeSubMenuItem?.href}
       contentTooltip={
         <>
-          {pesosBlueAvg && <div>1 PESO = ${(1 / pesosBlueAvg).toFixed(5)} USDC</div>}
+          {pesosBlueAvg && <div>1 ARS = ${(1 / pesosBlueAvg).toFixed(5)} USDC</div>}
           {pePriceArs && <div>1 PE = ${pePriceArs.toFixed(4)} ARS</div>}
           {pePriceUsdc && <div>1 PE = ${pePriceUsdc.toFixed(5)} USDC</div>}
         </>
