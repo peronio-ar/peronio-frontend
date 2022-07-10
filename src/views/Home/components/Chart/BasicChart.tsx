@@ -10,8 +10,8 @@ import NoChartAvailable from './NoChartAvailable'
 import TokenDisplay from './TokenDisplay'
 import { getTimeWindowChange } from './utils'
 
-const findArsPrice = (prices, date) => {
-  let priceFound
+const findArsPrice = (prices: any[], date: string | number | Date) => {
+  let priceFound: any
   let lookupDate = new Date(date)
   while (priceFound === undefined) {
     // eslint-disable-next-line no-loop-func
@@ -42,13 +42,15 @@ const BasicChart = ({
   })
   const [hoverValue, setHoverValue] = useState<number | undefined>()
   const [hoverDate, setHoverDate] = useState<string | undefined>()
-  const arsPrices = useARSHistoricPrice()
-
   const [arsPairPrices, setArsPairPrices] = useState([])
-  useEffect(() => {
+  const arsPrices = useARSHistoricPrice()
+  // console.info('ars Prices fuera', arsPrices)
+  // console.info(arsPairPrices)
+
+  const populateChart = () => {
+    console.info('ars Prices dentro', arsPrices)
     if (!arsPrices || arsPrices.length === 0) {
       setArsPairPrices([])
-      return
     }
 
     setArsPairPrices(
@@ -59,7 +61,13 @@ const BasicChart = ({
         }
       }),
     )
-  }, [arsPrices, pairPrices])
+  }
+
+  useEffect(() => {
+    console.info('useEffect')
+    populateChart()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const valueToDisplay = hoverValue || arsPairPrices[arsPairPrices.length - 1]?.value
 
