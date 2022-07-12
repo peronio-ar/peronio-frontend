@@ -44,30 +44,24 @@ const BasicChart = ({
   const [hoverDate, setHoverDate] = useState<string | undefined>()
   const [arsPairPrices, setArsPairPrices] = useState([])
   const arsPrices = useARSHistoricPrice()
-  // console.info('ars Prices fuera', arsPrices)
-  // console.info(arsPairPrices)
 
-  const populateChart = () => {
-    console.info('ars Prices dentro', arsPrices)
-    if (!arsPrices || arsPrices.length === 0) {
-      setArsPairPrices([])
-    }
-
-    setArsPairPrices(
-      pairPrices.map((pairPrice) => {
-        return {
-          ...pairPrice,
-          value: findArsPrice(arsPrices, pairPrice.time)?.price / pairPrice.value,
-        }
-      }),
-    )
-  }
+  
 
   useEffect(() => {
-    console.info('useEffect')
-    populateChart()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    const setPrices = () => {
+      setArsPairPrices(
+        pairPrices.map((pairPrice) => {
+          return {
+            ...pairPrice,
+            value: findArsPrice(arsPrices, pairPrice.time)?.price / pairPrice.value,
+          }
+        }),
+      )
+    }
+
+    const updateData = setInterval(setPrices, 500);
+    return () => clearInterval(updateData);
+  }, [arsPairPrices.length, arsPrices, pairPrices])
 
   const valueToDisplay = hoverValue || arsPairPrices[arsPairPrices.length - 1]?.value
 
