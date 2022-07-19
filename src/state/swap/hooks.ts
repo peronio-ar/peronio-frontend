@@ -13,6 +13,8 @@ import { isAddress } from 'utils'
 import { computeSlippageAdjustedAmounts } from 'utils/prices'
 import getLpAddress from 'utils/getLpAddress'
 import { getTokenAddress } from 'views/Swap/components/Chart/utils'
+import useARSHistoricPrice from 'hooks/useARSHistoricPrice'
+import { isSameDay, subDays } from 'date-fns'
 import { AppDispatch, AppState } from '../index'
 import { useCurrencyBalances } from '../wallet/hooks'
 import {
@@ -392,9 +394,7 @@ export const useFetchPairPrices = ({
         // low liquidity pool might mean that the price is incorrect
         // in that case try to get derived price
         const hasEnoughLiquidity = pairHasEnoughLiquidity(data, timeWindow)
-        const newPairData = normalizeChartData(data, timeWindow,   token0Address,
-          token1Address,
-        ) || []
+        const newPairData = normalizeChartData(data, timeWindow, token0Address, token1Address) || []
         if (newPairData.length > 0 && hasEnoughLiquidity) {
           dispatch(updatePairData({ pairData: newPairData, pairId, timeWindow }))
           setIsLoading(false)
@@ -476,4 +476,46 @@ export const useFetchPairPrices = ({
     pairPrices = normalizedDerivedPairDataWithCurrentSwapPrice
   }
   return { pairPrices, pairId }
+}
+
+const findArsPrice = (prices, date) => {
+  let priceFound
+  let lookupDate = new Date(date)
+  while (priceFound === undefined) {
+    // eslint-disable-next-line no-loop-func
+    priceFound = prices.find((price) => isSameDay(new Date(price.date), lookupDate))
+    lookupDate = subDays(lookupDate, 1)
+  }
+  return priceFound
+}
+export const useFetchPairArsPrices = ({
+  token0Address,
+  token1Address,
+  timeWindow,
+  currentSwapPrice,
+}: useFetchPairPricesParams) => {
+  const { pairPrices = [], pairId } = useFetchPairPrices({
+    token0Address,
+    token1Address,
+    timeWindow,
+    currentSwapPrice,
+  })
+  const arsPrices = useARSHistoricPrice()
+  const [arsPairPrices, setArsPairPrices] = useState([])
+  useEffect(() => {
+    // if (!arsPrices || arsPrices.length === 0) {
+    //   setArsPairPrices([])
+    //   return
+    // }
+
+    setArsPairPrices(
+      pairPrices.map((pairPrice) => {
+        return {
+          ...pairPrice,
+          value: findArsPrice(arsPrices, pairPrice.time)?.price / pairPrice.value,
+        }
+      }),
+    )
+  }, [arsPrices, pairPrices])
+  return { pairPrices: arsPairPrices, pairId }
 }

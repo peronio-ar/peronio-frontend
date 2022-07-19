@@ -1,7 +1,7 @@
 import { Box, ButtonMenu, ButtonMenuItem, Flex, Text } from 'peronio-uikit'
 import { useTranslation } from 'contexts/Localization'
-import React, { lazy, Suspense, useEffect, useState } from 'react'
-import { useFetchPairPrices } from 'state/swap/hooks'
+import React, { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { useFetchPairArsPrices, useFetchPairPrices } from 'state/swap/hooks'
 import { PairDataTimeWindowEnum } from 'state/swap/types'
 import { LineChartLoader } from 'views/Info/components/ChartLoaders'
 import useARSHistoricPrice from 'hooks/useARSHistoricPrice'
@@ -10,16 +10,7 @@ import NoChartAvailable from './NoChartAvailable'
 import TokenDisplay from './TokenDisplay'
 import { getTimeWindowChange } from './utils'
 
-const findArsPrice = (prices, date) => {
-  let priceFound
-  let lookupDate = new Date(date)
-  while (priceFound === undefined) {
-    // eslint-disable-next-line no-loop-func
-    priceFound = prices.find((price) => isSameDay(new Date(price.date), lookupDate))
-    lookupDate = subDays(lookupDate, 1)
-  }
-  return priceFound
-}
+
 
 const SwapLineChart = lazy(() => import('./SwapLineChart'))
 
@@ -32,9 +23,9 @@ const BasicChart = ({
   isMobile,
   currentSwapPrice,
 }) => {
-  const [timeWindow, setTimeWindow] = useState<PairDataTimeWindowEnum>(2)
+  const [timeWindow, setTimeWindow] = useState<PairDataTimeWindowEnum>(0)
 
-  const { pairPrices = [], pairId } = useFetchPairPrices({
+  const { pairPrices = [], pairId } = useFetchPairArsPrices({
     token0Address,
     token1Address,
     timeWindow,
@@ -42,28 +33,24 @@ const BasicChart = ({
   })
   const [hoverValue, setHoverValue] = useState<number | undefined>()
   const [hoverDate, setHoverDate] = useState<string | undefined>()
-  const arsPrices = useARSHistoricPrice()
+    // useEffect(() => {
+    //   if (!arsPrices || arsPrices.length === 0) {
+    //     setArsPairPrices([])
+    //     return
+    //   }
 
-  const [arsPairPrices, setArsPairPrices] = useState([])
-  useEffect(() => {
-    if (!arsPrices || arsPrices.length === 0) {
-      setArsPairPrices([])
-      return
-    }
+    //   setArsPairPrices(
+    //     pairPrices.map((pairPrice) => {
+    //       return {
+    //         ...pairPrice,
+    //         value: findArsPrice(arsPrices, pairPrice.time)?.price / pairPrice.value,
+    //       }
+    //     }),
+    //   )
+    // }, [arsPrices, pairPrices])
+  const valueToDisplay = hoverValue || pairPrices[pairPrices.length - 1]?.value
 
-    setArsPairPrices(
-      pairPrices.map((pairPrice) => {
-        return {
-          ...pairPrice,
-          value: findArsPrice(arsPrices, pairPrice.time)?.price / pairPrice.value,
-        }
-      }),
-    )
-  }, [arsPrices, pairPrices])
-
-  const valueToDisplay = hoverValue || arsPairPrices[arsPairPrices.length - 1]?.value
-
-  const { changePercentage, changeValue } = getTimeWindowChange(arsPairPrices)
+  const { changePercentage, changeValue } = getTimeWindowChange(pairPrices)
   const isChangePositive = changeValue >= 0
   const chartHeight = isChartExpanded ? 'calc(100% - 120px)' : '310px'
   const {
@@ -131,7 +118,7 @@ const BasicChart = ({
       <Box height={isMobile ? '100%' : chartHeight} p={isMobile ? '0px' : '16px'} width="100%">
         <Suspense fallback={<LineChartLoader />}>
           <SwapLineChart
-            data={arsPairPrices}
+            data={pairPrices}
             setHoverValue={setHoverValue}
             setHoverDate={setHoverDate}
             isChangePositive={isChangePositive}
