@@ -1,0 +1,732 @@
+{
+  "address": "0x78a486306D15E7111cca541F2f1307a1cFCaF5C4",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "QiQuantity",
+          "name": "qi",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "UsdcQuantity",
+          "name": "usdc",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "LpQuantity",
+          "name": "lp",
+          "type": "uint256"
+        }
+      ],
+      "name": "CompoundRewards",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "UsdcQuantity",
+          "name": "collateral",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "PePerUsdcQuantity",
+          "name": "startingRatio",
+          "type": "uint256"
+        }
+      ],
+      "name": "Initialized",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "LpQuantity",
+          "name": "lpAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "PeQuantity",
+          "name": "tokenAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LiquidityWithdrawal",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "RatioWith6Decimals",
+          "name": "markupFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "MarkupFeeUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "UsdcQuantity",
+          "name": "collateralAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "PeQuantity",
+          "name": "tokenAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Minted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "UsdcQuantity",
+          "name": "collateralAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "PeQuantity",
+          "name": "tokenAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdrawal",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "MARKUP_ROLE",
+      "outputs": [
+        {
+          "internalType": "RoleId",
+          "name": "roleId",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MIGRATOR_ROLE",
+      "outputs": [
+        {
+          "internalType": "RoleId",
+          "name": "roleId",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "REWARDS_ROLE",
+      "outputs": [
+        {
+          "internalType": "RoleId",
+          "name": "roleId",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "buyingPrice",
+      "outputs": [
+        {
+          "internalType": "UsdcPerPeQuantity",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "collateralRatio",
+      "outputs": [
+        {
+          "internalType": "UsdcPerPeQuantity",
+          "name": "ratio",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "compoundRewards",
+      "outputs": [
+        {
+          "internalType": "UsdcQuantity",
+          "name": "usdcAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "LpQuantity",
+          "name": "lpAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLpReserves",
+      "outputs": [
+        {
+          "internalType": "UsdcQuantity",
+          "name": "usdcReserves",
+          "type": "uint256"
+        },
+        {
+          "internalType": "MaiQuantity",
+          "name": "maiReserves",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getPendingRewardsAmount",
+      "outputs": [
+        {
+          "internalType": "QiQuantity",
+          "name": "qiAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "UsdcQuantity",
+          "name": "usdcAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "PePerUsdcQuantity",
+          "name": "startingRatio",
+          "type": "uint256"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "initialized",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lpAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "maiAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "markupFee",
+      "outputs": [
+        {
+          "internalType": "RatioWith6Decimals",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "UsdcQuantity",
+          "name": "usdcAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "PeQuantity",
+          "name": "minReceive",
+          "type": "uint256"
+        }
+      ],
+      "name": "mint",
+      "outputs": [
+        {
+          "internalType": "PeQuantity",
+          "name": "peAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "UsdcQuantity",
+          "name": "usdcAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "PeQuantity",
+          "name": "minReceive",
+          "type": "uint256"
+        }
+      ],
+      "name": "mintForMigration",
+      "outputs": [
+        {
+          "internalType": "PeQuantity",
+          "name": "peAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "qiAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "qiDaoFarmAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "qiDaoPoolId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "quickSwapRouterAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "UsdcQuantity",
+          "name": "usdc",
+          "type": "uint256"
+        }
+      ],
+      "name": "quoteIn",
+      "outputs": [
+        {
+          "internalType": "PeQuantity",
+          "name": "pe",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "PeQuantity",
+          "name": "pe",
+          "type": "uint256"
+        }
+      ],
+      "name": "quoteOut",
+      "outputs": [
+        {
+          "internalType": "UsdcQuantity",
+          "name": "usdc",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "RatioWith6Decimals",
+          "name": "newMarkupFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "setMarkupFee",
+      "outputs": [
+        {
+          "internalType": "RatioWith6Decimals",
+          "name": "prevMarkupFee",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stakedBalance",
+      "outputs": [
+        {
+          "internalType": "LpQuantity",
+          "name": "lpAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stakedTokens",
+      "outputs": [
+        {
+          "internalType": "UsdcQuantity",
+          "name": "usdcAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "MaiQuantity",
+          "name": "maiAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stakedValue",
+      "outputs": [
+        {
+          "internalType": "UsdcQuantity",
+          "name": "usdcAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "swapFee",
+      "outputs": [
+        {
+          "internalType": "RatioWith6Decimals",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "usdcAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "usdcPrice",
+      "outputs": [
+        {
+          "internalType": "PePerUsdcQuantity",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "PeQuantity",
+          "name": "peAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [
+        {
+          "internalType": "UsdcQuantity",
+          "name": "usdcTotal",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "PeQuantity",
+          "name": "peAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawLiquidity",
+      "outputs": [
+        {
+          "internalType": "LpQuantity",
+          "name": "lpAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x07921256cd8dc4037a379df83b19a6d4b255a9d3b14f5cf45940fe394e68bc76",
+  "receipt": {
+    "to": null,
+    "from": "0x96F5a9B9f97a330C2f19c494c40ACdE8BB297008",
+    "contractAddress": "0xA0e7F4C6494283301AC58D78a97D791Bd383F2bD",
+    "transactionIndex": 0,
+    "gasUsed": "4090698",
+    "logsBloom": "0x00000014000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000040000000000000000000000000000000000000000000000000004000000000000000000020000000000000000400800000000000000000000000002000000000000000000000000000000000000000000000000002008000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000800000000000000000000000000000000000000100000001000020000000000000000000000000002000000000002000000080000000000000000000",
+    "blockHash": "0xe9911b2a2c2631243a704400be7011b0e642391a3c8a78934c117da8e4570b54",
+    "transactionHash": "0x07921256cd8dc4037a379df83b19a6d4b255a9d3b14f5cf45940fe394e68bc76",
+    "logs": [
+      {
+        "transactionIndex": 0,
+        "blockNumber": 32121122,
+        "transactionHash": "0x07921256cd8dc4037a379df83b19a6d4b255a9d3b14f5cf45940fe394e68bc76",
+        "address": "0xA0e7F4C6494283301AC58D78a97D791Bd383F2bD",
+        "topics": [
+          "0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x00000000000000000000000096f5a9b9f97a330c2f19c494c40acde8bb297008",
+          "0x00000000000000000000000096f5a9b9f97a330c2f19c494c40acde8bb297008"
+        ],
+        "data": "0x",
+        "logIndex": 0,
+        "blockHash": "0xe9911b2a2c2631243a704400be7011b0e642391a3c8a78934c117da8e4570b54"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 32121122,
+        "transactionHash": "0x07921256cd8dc4037a379df83b19a6d4b255a9d3b14f5cf45940fe394e68bc76",
+        "address": "0xA0e7F4C6494283301AC58D78a97D791Bd383F2bD",
+        "topics": [
+          "0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d",
+          "0x74a064b2dec4aeb0b53e2d06f8e76ce531a17302a866fe51bc86d9a90b4e85e3",
+          "0x00000000000000000000000096f5a9b9f97a330c2f19c494c40acde8bb297008",
+          "0x00000000000000000000000096f5a9b9f97a330c2f19c494c40acde8bb297008"
+        ],
+        "data": "0x",
+        "logIndex": 1,
+        "blockHash": "0xe9911b2a2c2631243a704400be7011b0e642391a3c8a78934c117da8e4570b54"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 32121122,
+        "transactionHash": "0x07921256cd8dc4037a379df83b19a6d4b255a9d3b14f5cf45940fe394e68bc76",
+        "address": "0xA0e7F4C6494283301AC58D78a97D791Bd383F2bD",
+        "topics": [
+          "0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d",
+          "0x5407862f04286ebe607684514c14b7fffc750b6bf52ba44ea49569174845a5bd",
+          "0x00000000000000000000000096f5a9b9f97a330c2f19c494c40acde8bb297008",
+          "0x00000000000000000000000096f5a9b9f97a330c2f19c494c40acde8bb297008"
+        ],
+        "data": "0x",
+        "logIndex": 2,
+        "blockHash": "0xe9911b2a2c2631243a704400be7011b0e642391a3c8a78934c117da8e4570b54"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 32121122,
+        "transactionHash": "0x07921256cd8dc4037a379df83b19a6d4b255a9d3b14f5cf45940fe394e68bc76",
+        "address": "0xA0e7F4C6494283301AC58D78a97D791Bd383F2bD",
+        "topics": [
+          "0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d",
+          "0x600e5f1c60beb469a3fa6dd3814a4ae211cc6259a6d033bae218a742f2af01d3",
+          "0x00000000000000000000000096f5a9b9f97a330c2f19c494c40acde8bb297008",
+          "0x00000000000000000000000096f5a9b9f97a330c2f19c494c40acde8bb297008"
+        ],
+        "data": "0x",
+        "logIndex": 3,
+        "blockHash": "0xe9911b2a2c2631243a704400be7011b0e642391a3c8a78934c117da8e4570b54"
+      }
+    ],
+    "blockNumber": 32121122,
+    "cumulativeGasUsed": "4090698",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "Peronio",
+    "PE",
+    "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+    "0xa3Fa99A148fA48D14Ed51d610c367C61876997F1",
+    "0x160532D2536175d65C03B97b0630A9802c274daD",
+    "0x580A84C73811E1839F75d86d75d88cCa0c241fF4",
+    "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+    "0xFFD2AA58Cca3A44120aaA42CEA2852348A9c2eA6",
+    "0"
+  ]
+}

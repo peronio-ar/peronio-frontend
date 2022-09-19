@@ -20,7 +20,7 @@ const Stats = () => {
   // const data = useGetStats()
   const { theme } = useTheme()
   const inputCurrencyId = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174' // USDC
-  const outputCurrencyId = '0xc2768beF7a6BB57F0FfA169a9ED4017c09696FF1' // PE
+  const outputCurrencyId = '0x78a486306D15E7111cca541F2f1307a1cFCaF5C4' // P
   const inputCurrency = useCurrency(inputCurrencyId)
   const outputCurrency = useCurrency(outputCurrencyId)
   const singleTokenPrice = useSingleTokenSwapInfo()

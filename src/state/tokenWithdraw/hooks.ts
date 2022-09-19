@@ -43,7 +43,7 @@ export function useWithdrawTokenInfo(): {
       ...mainnetTokens.pe,
       name: mainnetTokens.pe.name,
       symbol: mainnetTokens.pe.symbol,
-      logoURI: 'https://raw.githubusercontent.com/peronio-ar/branding/main/logo/256.png',
+      logoURI: 'https://raw.githubusercontent.com/peronio-ar/branding/main/logo/v2/256.png',
     },
     [],
   )
@@ -59,10 +59,9 @@ export function useWithdrawTokenInfo(): {
   const isExactIn: boolean = independentField === Field.INPUT
   const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
-  const withdrawIn = useWithdrawExactIn(isExactIn ? parsedAmount : null, outputCurrency)
-  const withdrawOut = useWithdrawExactOut(!isExactIn ? parsedAmount : null, outputCurrency)
+  const withdrawIn = useWithdrawExactIn(parsedAmount, outputCurrency)
 
-  const withdraw = isExactIn ? withdrawIn : withdrawOut
+  const withdraw = withdrawIn
 
   const currencyBalances = {
     [Field.INPUT]: relevantTokenBalances[0],

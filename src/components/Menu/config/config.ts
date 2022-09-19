@@ -35,6 +35,10 @@ const config: (t: ContextApi['t']) => ConfigMenuItemsType[] = (t) => [
         label: t('Withdraw'),
         href: '/withdraw',
       },
+      {
+        label: t('Migrate'),
+        href: '/migrate',
+      },
     ],
   },
   // {
@@ -123,6 +127,11 @@ const config: (t: ContextApi['t']) => ConfigMenuItemsType[] = (t) => [
       //   href: 'https://medium.com/pancakeswap',
       //   type: DropdownMenuItemType.EXTERNAL_LINK,
       // },
+      {
+        label: t('Version 1'),
+        href: 'https://v1.peronio.ar',
+        type: DropdownMenuItemType.EXTERNAL_LINK,
+      },
       {
         label: t('Github'),
         href: 'https://github.com/peronio-ar',

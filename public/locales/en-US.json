@@ -1761,6 +1761,8 @@
   "Provided by MAI/USDC in QiDao": "Provided by MAI/USDC in QiDao",
   "Vault": "Vault",
   "Withdraw": "Withdraw",
+  "Migrate PE tokens to PE2 tokens": "Migrate PE tokens to PE2 tokens",
+  "Migrate": "Migrate",
   "Deposit USDC to mint PE tokens": "Deposit USDC to mint PE tokens",
   "You'll get this amount of PE": "You'll get this amount of PE",
   "Mint Anyway": "Mint Anyway",
@@ -1771,6 +1773,7 @@
   "%quoteSymbol% per %baseSymbol%": "%quoteSymbol% per %baseSymbol%",
   "%baseSymbol% per %quoteSymbol%": "%baseSymbol% per %quoteSymbol%",
   "Confirm Mint": "Confirm Mint",
+  "Confirm Migrate": "Confirm Migrate",
   "Deposit PE tokens to receive USDC": "Deposit PE tokens to receive USDC",
   "Confirm Withdraw": "Confirm Withdraw",
   "Minting in the current version leaks parts of cents of Dollars. We recommend not minting until the new version of the contract is live.": "Minting in the current version leaks parts of cents of Dollars. We recommend not minting until the new version of the contract is live."

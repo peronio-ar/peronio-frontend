@@ -7,7 +7,7 @@
     "patch": 0
   },
   "tags": {},
-  "logoURI": "https://raw.githubusercontent.com/peronio-ar/branding/main/logo/256.png",
+  "logoURI": "https://raw.githubusercontent.com/peronio-ar/branding/main/logo/v1/256.png",
   "keywords": ["peronio", "default"],
   "tokens": [
     {
@@ -19,20 +19,28 @@
       "logoURI": "https://app.apeswap.finance/static/media/matic-logo.6e808c42.png"
     },
     {
-      "name": "Peronio",
+      "name": "Peronio v1",
       "symbol": "PE",
       "address": "0xc2768beF7a6BB57F0FfA169a9ED4017c09696FF1",
       "chainId": 137,
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/peronio-ar/branding/main/logo/256.png"
+      "logoURI": "https://raw.githubusercontent.com/peronio-ar/branding/main/logo/v1/256.png"
+    },
+    {
+      "name": "Peronio v2",
+      "symbol": "P",
+      "address": "0x78a486306D15E7111cca541F2f1307a1cFCaF5C4",
+      "chainId": 137,
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/peronio-ar/branding/main/logo/v2/256.png"
     },
     {
       "name": "USD Coin",
       "symbol": "USDC",
-      "address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+      "address": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
       "chainId": 137,
       "decimals": 6,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x2791bca1f2de4661ed88a30c99a7a9449aa84174.png"
+      "logoURI": "https://pancakeswap.finance/images/tokens/0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174.png"
     },
     {
       "name": "WMATIC Token",
@@ -53,10 +61,10 @@
     {
       "name": "USD Coin",
       "symbol": "USDC",
-      "address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+      "address": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
       "chainId": 80001,
       "decimals": 6,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x2791bca1f2de4661ed88a30c99a7a9449aa84174.png"
+      "logoURI": "https://pancakeswap.finance/images/tokens/0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174.png"
     }
   ]
 }

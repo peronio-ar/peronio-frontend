@@ -3,7 +3,12 @@ import { simpleRpcProvider } from 'utils/providers'
 import { poolsConfig } from 'config/constants'
 import { PoolCategory } from 'config/constants/types'
 import tokens, { mainnetTokens } from 'config/constants/tokens'
-import { abi as PeronioABI } from 'peronio-core/deployments/matic/Peronio.json'
+
+// eslint-disable-next-line
+import { default as PeronioABI } from 'config/abi/Peronio.json'
+
+// eslint-disable-next-line
+import { default as PeronioV1ABI } from 'config/abi/PeronioV1.json'
 
 // Addresses
 import {
@@ -33,6 +38,7 @@ import {
   getPancakeSquadAddress,
   getTradingCompetitionAddressV2,
   getBunnySpecialXmasAddress,
+  getMigratorV1ContractAdress,
 } from 'utils/addressHelpers'
 
 // ABI
@@ -71,6 +77,7 @@ import nftMarketAbi from 'config/abi/nftMarket.json'
 import nftSaleAbi from 'config/abi/nftSale.json'
 import pancakeSquadAbi from 'config/abi/pancakeSquad.json'
 import erc721CollectionAbi from 'config/abi/erc721collection.json'
+import migratorAbi from 'config/abi/migrator.json'
 
 // Types
 import {
@@ -222,7 +229,12 @@ export const getPancakeSquadContract = (signer?: ethers.Signer | ethers.provider
 export const getErc721CollectionContract = (signer?: ethers.Signer | ethers.providers.Provider, address?: string) => {
   return getContract(erc721CollectionAbi, address, signer) as Erc721collection
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getPeronioContract = (signer?: ethers.Signer | ethers.providers.Provider, address?: string) => {
-  return getContract(PeronioABI, mainnetTokens.pe.address, signer)
+  return getContract(PeronioABI.abi, mainnetTokens.pe.address, signer)
+}
+export const getPeronioV1Contract = (signer?: ethers.Signer | ethers.providers.Provider, address?: string) => {
+  return getContract(PeronioV1ABI.abi, mainnetTokens.pe.address, signer)
+}
+export const getMigratorContract = (signer?: ethers.Signer | ethers.providers.Provider, address?: string) => {
+  return getContract(migratorAbi, getMigratorV1ContractAdress(), signer)
 }

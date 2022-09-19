@@ -3,10 +3,10 @@
 // import { formatUnits } from '@ethersproject/units'
 import { BigNumber } from 'ethers'
 import { mainnetTokens } from 'config/constants/tokens'
-import { Currency, CurrencyAmount, Withdraw, Percent, Price } from 'peronio-sdk'
+import { Currency, CurrencyAmount, Withdraw, Percent, Price, TokenAmount } from 'peronio-sdk'
 import JSBI from 'jsbi'
-import { MARKUP_DECIMALS } from 'config/constants'
 import { useEffect, useMemo, useState } from 'react'
+import { parseUnits } from 'ethers/lib/utils'
 import { usePeronioContract } from './useContract'
 
 // import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -33,19 +33,19 @@ export function useWithdrawExactIn(currencyAmountIn?: CurrencyAmount, currencyOu
   const DECIMALS = mainnetTokens.pe.decimals
 
   const [markup, setMarkup] = useState<Percent>()
-  const [price, setPrice] = useState<Price>()
+  const [out, setOut] = useState<any>()
 
   // Get Markup
   useEffect(() => {
     async function fetchMarkup() {
       return new Percent(
-        (await peronioContract.markup()).toString(),
-        JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(MARKUP_DECIMALS + 2)),
+        (await peronioContract.markupFee()).toString(),
+        JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(DECIMALS + 2)),
       )
     }
 
     fetchMarkup().then(setMarkup)
-  }, [peronioContract])
+  }, [peronioContract, DECIMALS])
 
   // Get Buying Price
   useEffect(() => {
@@ -53,28 +53,23 @@ export function useWithdrawExactIn(currencyAmountIn?: CurrencyAmount, currencyOu
       return
     }
     async function fetchBuyingPrice(): Promise<BigNumber> {
-      return peronioContract.collateralRatio()
+      const theAmount = parseUnits(currencyAmountIn.toFixed(), currencyAmountIn.currency.decimals)
+      return peronioContract.quoteOut(theAmount.toNumber())
     }
 
     fetchBuyingPrice().then((collateralRatio) => {
-      setPrice(
-        new Price(
-          currencyAmountIn.currency,
-          currencyOut,
-          JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(DECIMALS)),
-          collateralRatio.toString(),
-        ),
-      )
+      setOut(collateralRatio)
     })
   }, [peronioContract, DECIMALS, currencyOut, currencyAmountIn])
 
   return useMemo(() => {
     // Needs Price
-    if (!price || !markup || !currencyAmountIn) {
+    if (!currencyAmountIn || !out) {
       return null
     }
-    return Withdraw.exactIn(currencyAmountIn, price)
-  }, [price, markup, currencyAmountIn])
+    const outAmmount  = new TokenAmount(mainnetTokens.pe, JSBI.BigInt(out))
+    return new Withdraw(currencyAmountIn, outAmmount )
+  }, [currencyAmountIn, out])
 }
 
 /**
@@ -94,13 +89,13 @@ export function useWithdrawExactOut(currencyAmountOut?: CurrencyAmount, currency
   useEffect(() => {
     async function fetchMarkup() {
       return new Percent(
-        (await peronioContract.markup()).toString(),
-        JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(MARKUP_DECIMALS + 2)),
+        (await peronioContract.markupFee()).toString(),
+        JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(DECIMALS + 2)),
       )
     }
 
     fetchMarkup().then(setMarkup)
-  }, [peronioContract])
+  }, [peronioContract, DECIMALS])
 
   // Get Buying Price
   useEffect(() => {
@@ -108,7 +103,8 @@ export function useWithdrawExactOut(currencyAmountOut?: CurrencyAmount, currency
       return
     }
     async function fetchBuyingPrice(): Promise<BigNumber> {
-      return peronioContract.collateralRatio()
+      const theAmount = parseUnits(currencyAmountOut.toFixed(), currencyAmountOut.currency.decimals)
+      return peronioContract.quoteOut(theAmount.toNumber())
     }
 
     fetchBuyingPrice()
