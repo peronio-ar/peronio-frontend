@@ -57,6 +57,10 @@ export default function MigrateView(props: RouteComponentProps) {
   // compare input balance to max input based on version
   const [balanceIn, amountIn] = [currencyBalances[Field.INPUT], inputAmount]
   let inputError = null
+  if(!amountIn){
+    inputError = t('Enter an amount')
+  }
+
   if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
     inputError = t('Insufficient %symbol% balance', { symbol: amountIn.currency.symbol })
   }
